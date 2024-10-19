@@ -3,8 +3,11 @@ const userRouter = require("./routes/userRoutes");
 const errorHandler = require("./middlewares/errorMiddleware");
 const connectDB = require("./config/connect");
 const app = express();
+const cors = require("cors");
 require("dotenv").config();
 require("colors");
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -1,0 +1,13 @@
+.react-tel-input input {
+  width: 100% !important;
+  position: relative;
+}
+
+.text-sm {
+  font-size: 0.8rem !important;
+}
+
+.country-list {
+  /* position: absolute !important;
+  width: 100% !important; */
+}
