@@ -106,7 +106,7 @@ const sendMail = (email, password, username) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   // get the data from the frontend
-  const { email, f_name, l_name, phone_number, image } = req.body;
+  const { email, f_name, l_name, phone_number, image, consent } = req.body;
   // check if user adds the required fields
   if (!email || !f_name || !l_name || !phone_number) {
     res.status(400);
@@ -157,6 +157,7 @@ const registerUser = asyncHandler(async (req, res) => {
     l_name,
     phone_number,
     password,
+    consent,
   });
 
   res.send(createdUser);
@@ -174,7 +175,11 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // find user based on phone number or email
   const findUser = await userModel.findOne({
-    $or: [{ email: entry_card }, { phone_number: entry_card }],
+    $or: [
+      { email: entry_card },
+      { phone_number: entry_card },
+      { username: entry_card },
+    ],
   });
 
   // if user doesnt exists, throw an error
