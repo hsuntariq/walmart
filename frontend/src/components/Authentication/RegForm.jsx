@@ -112,17 +112,17 @@ const RegForm = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (!phone) {
-      setError({ email: false, f_name: false, l_name: false, phone: true });
-    }
     if (!email) {
-      setError({ email: true, f_name: false, l_name: false, phone: false });
+      setError({ ...error, email: true });
     }
     if (!f_name) {
-      setError({ email: false, f_name: true, l_name: false, phone: false });
+      setError({ ...error, f_name: true });
     }
     if (!l_name) {
-      setError({ email: false, f_name: false, l_name: true, phone: false });
+      setError({ ...error, l_name: true });
+    }
+    if (!phone) {
+      setError({ ...error, phone: true });
     }
 
     // only proceed if all the fields are entered
