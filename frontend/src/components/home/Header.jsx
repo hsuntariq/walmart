@@ -1,23 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "../../assets/images/logo.webp";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { BiGlobeAlt, BiHeart, BiLock, BiSearch } from "react-icons/bi";
 import { Input, Typography } from "@mui/material";
 import { IoLocationOutline } from "react-icons/io5";
-
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   FaCartPlus,
   FaGrinHearts,
   FaList,
+  FaMoneyBillWave,
   FaSearchLocation,
+  FaUser,
 } from "react-icons/fa";
 import ItemPopUp from "./ItemPopUp";
 import { VscListSelection } from "react-icons/vsc";
 import Sidebar from "./Sidebar";
+import ProfileImageModal from "./ProfileImageModal";
+import PopUp from "./PopUp";
 
 const Header = () => {
+  const openSidebar = useRef();
+  const openUnderlay = useRef();
   const [size, setSize] = useState(window.innerWidth);
   const [showLocation, setShowLocation] = useState(false);
+
+  // get the user from the global state
+
+  const { user } = useSelector((state) => state.user);
 
   // update the size of window
 
@@ -35,14 +46,22 @@ const Header = () => {
     };
   });
 
+  // open the sidebar
+  const handleSidebar = () => {
+    openSidebar.current.style.transform = "translateX(0)";
+    openUnderlay.current.style.transform = "translateX(0)";
+  };
+
   return (
     <>
       {/* call sidebar */}
-      {size <= 1024 && <Sidebar />}
+      {size <= 1024 && (
+        <Sidebar openSidebar={openSidebar} openUnderlay={openUnderlay} />
+      )}
 
       <nav className="d-flex text-white main-bg-color p-3 justify-content-around align-items-center">
         {size <= 1024 && (
-          <div className="menu-logo">
+          <div className="menu-logo" onClick={handleSidebar}>
             <VscListSelection size={25} />
           </div>
         )}
@@ -117,15 +136,24 @@ const Header = () => {
               </div>
             </div>
             <div className="sign-in gap-1 d-flex align-items-center">
-              <BiLock />
-              <div className="">
-                <Typography className="text-sm" variant="p">
-                  Sign In
-                </Typography>
-                <Typography className="text-sm fw-bold" variant="h6">
-                  Account
-                </Typography>
-              </div>
+              {user ? (
+                <PopUp />
+              ) : (
+                <>
+                  <BiLock />
+                  <Link
+                    to="/register"
+                    className="text-white text-decoration-none"
+                  >
+                    <Typography className="text-sm" variant="p">
+                      Sign In
+                    </Typography>
+                    <Typography className="text-sm fw-bold" variant="h6">
+                      Account
+                    </Typography>
+                  </Link>
+                </>
+              )}
             </div>
           </>
         )}

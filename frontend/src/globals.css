@@ -2,6 +2,17 @@
   --primary: #0071dc;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .main-bg-color {
   background-color: var(--primary) !important;
 }
@@ -66,4 +77,84 @@ hr {
   height: 1px;
   background-color: lightgray !important;
   margin: 0.6rem !important;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.width-100 {
+  width: 100vw !important;
+}
+
+.white-opacity {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.transition-fast {
+  transition: all 0.3s;
+}
+.transition-med {
+  transition: all 0.5s;
+}
+.transition-slow {
+  transition: all 0.9s;
+}
+
+.opacity-0 {
+  opacity: 0 !important;
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+.sidebar-underlay,
+.sidebar {
+  transition: all 0.5s;
+  transform: translateX(-100%);
+}
+
+.object-fit-cover {
+  object-fit: cover !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+li {
+  cursor: pointer !important;
+  transition: all 0.1s !important;
+  padding: 0.4rem;
+}
+
+li:hover {
+  background-color: #4e3624 !important;
+  color: white !important;
+}
+
+.btn-disabled {
+  background-color: gray !important;
+}
+
+@media (max-width: 575px) {
+  .img-row {
+    height: 100% !important;
+    padding: 0.5rem 0 !important;
+  }
+  .img-row .my-col {
+    height: 100% !important;
+
+    /* overflow: hidden !important; */
+  }
+
+  .my-col img {
+    height: 100% !important;
+    object-fit: cover;
+  }
+
+  .my-col:nth-child(1) {
+    margin-bottom: 0.5rem !important;
+  }
 }
