@@ -19,3 +19,19 @@ export const loginUser = async (userData) => {
 
   return response.data;
 };
+
+export const uploadImage = async (imageData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(
+    `${base_url}/upload-image`,
+    imageData,
+    config
+  );
+
+  return response.data;
+};

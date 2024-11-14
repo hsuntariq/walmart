@@ -3,10 +3,14 @@ import "./btn.css";
 import { useSelector } from "react-redux";
 import { Puff } from "react-loader-spinner";
 
-const MyBtn = ({ func, content }) => {
+const MyBtn = ({ func, content, bgColor, size }) => {
   const { userLoading } = useSelector((state) => state.user);
   return (
-    <button onClick={func} className="button w-100 my-2">
+    <button
+      style={{ background: bgColor, width: size }}
+      onClick={func}
+      className="button w-100 my-2 d-block mx-auto"
+    >
       {" "}
       {/* Updated class */}
       {userLoading ? (

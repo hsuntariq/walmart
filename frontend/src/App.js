@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./pages/Authentication/Register";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Authentication/Login";
+import AdminLogin from "./pages/admin/auth/Login";
+import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Home from "./pages/home/Home";
 const App = () => {
   return (
@@ -14,6 +16,11 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+
+          <Route path="/admin">
+            <Route path="login" element={<AdminLogin />} />
+            <Route path="dashboard" element={<Dashboard />} />
+          </Route>
         </Routes>
         <Toaster />
       </Router>

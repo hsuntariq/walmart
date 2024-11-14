@@ -10,6 +10,8 @@ import { FaPlus } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ThreeCircles } from "react-loader-spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadImageData, userReset } from "../../features/auth/authSlice";
 const Fade = React.forwardRef(function Fade(props, ref) {
   const { children, in: open, onEnter, onExited, ...other } = props;
   const style = useSpring({
@@ -48,14 +50,32 @@ const style = {
 };
 
 export default function ProfileImageModal({ open, handleClose }) {
+  const dispatch = useDispatch();
+  const { userLoading, userError, userMessage } = useSelector(
+    (state) => state.user
+  );
   const [imagePreview, setImagePreview] = React.useState(null);
   const [image, setImage] = React.useState(null);
   const [imageLoading, setImageLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const imageURL = URL.createObjectURL(file);
-    setImagePreview(imageURL);
-    setImage(file);
+    if (file.type.startsWith("image")) {
+      if (file.size <= 2097152) {
+        const imageURL = URL.createObjectURL(file);
+        setImagePreview(imageURL);
+        setImage(file);
+        setError(false);
+        setErrorMessage("");
+      } else {
+        setError(true);
+        setErrorMessage("File size must be less than 2MB");
+      }
+    } else {
+      setError(true);
+      setErrorMessage("File must be an image");
+    }
   };
 
   const imageUploadCloud = async (e) => {
@@ -83,8 +103,21 @@ export default function ProfileImageModal({ open, handleClose }) {
     }
   };
 
+  React.useEffect(() => {
+    if (userError) {
+      toast.error(userMessage);
+    }
+
+    dispatch(userReset());
+  }, [userError]);
+
   const handleImageUpload = async (e) => {
     const imageData = await imageUploadCloud(image);
+    const data = {
+      imageURL: imageData,
+    };
+
+    dispatch(uploadImageData(data));
   };
 
   return (
@@ -134,14 +167,15 @@ export default function ProfileImageModal({ open, handleClose }) {
               style={{ zIndex: "-4" }}
             />
           </div>
+          {error && <p className="text-danger fw-semibold">{errorMessage}</p>}
           <Button
-            disabled={imageLoading}
+            disabled={imageLoading || userLoading}
             onClick={handleImageUpload}
             variant="contained"
             className={`${imageLoading && "btn-disabled"}`}
             style={{ marginTop: "20px" }}
           >
-            {imageLoading ? (
+            {imageLoading || userLoading ? (
               <>
                 <ThreeCircles
                   visible={true}

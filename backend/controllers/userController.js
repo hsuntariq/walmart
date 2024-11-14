@@ -4,6 +4,8 @@ const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
+const jwt = require("jsonwebtoken");
+
 const sendMail = (email, password, username) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -160,7 +162,17 @@ const registerUser = asyncHandler(async (req, res) => {
     consent,
   });
 
-  res.send(createdUser);
+  res.send({
+    _id: createdUser?._id,
+    email,
+    username,
+    f_name,
+    l_name,
+    phone_number,
+    password,
+    consent,
+    token: generateToken(createdUser?._id),
+  });
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -193,7 +205,16 @@ const loginUser = asyncHandler(async (req, res) => {
 
   if (findUser) {
     if (findUser.password == password) {
-      res.send(findUser);
+      res.send({
+        _id: findUser?._id,
+        email: findUser?.email,
+        f_name: findUser?.f_name,
+        l_name: findUser?.l_name,
+        username: findUser?.username,
+        consent: findUser?.consent,
+        phone_number: findUser?.phone_number,
+        token: generateToken(findUser?._id),
+      });
     } else {
       res.status(401);
       throw new Error("Invalid Password");
@@ -201,7 +222,27 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const uploadImage = asyncHandler(async (req, res) => {
+  const { imageURL } = req.body;
+  if (!imageURL) {
+    res.status(400);
+    throw new Error("Image is required");
+  }
+  const findUser = req.user;
+  findUser.image = imageURL;
+  findUser.save();
+  res.send(findUser.image);
+});
+
+const generateToken = (id) => {
+  // to make a token,use sign method
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  uploadImage,
 };
