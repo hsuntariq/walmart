@@ -3,14 +3,50 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 0px;
+  background-color: #f4f5fa;
 }
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background-color: lightgray;
   border-radius: 10px;
+  opacity: 0 !important;
+  transition: all 0.9s;
+  height: 50px !important;
 }
 
+.admin-sidebar:hover::-webkit-scrollbar {
+  transition: all 0.9s;
+  width: 4px !important;
+  opacity: 1 !important;
+  background-color: green; */
+/* } */
+
 .height-0 {
-  height: 0 !important;
+  max-height: 0 !important;
   overflow: hidden;
+  transition: max-height 0.5s;
+}
+
+.height-auto {
+  max-height: 400px; /* Set this higher than the maximum expected height */
+  transition: max-height 0.5s;
+  overflow: hidden;
+}
+
+li {
+  padding: 0.4rem !important;
+  color: #6d687a !important;
+  text-transform: capitalize !important;
+  margin: 0.2rem !important;
+}
+
+li:hover {
+  background-color: #e5e5eb !important;
+  color: black !important;
+  border-radius: 0 var(--bs-border-radius-pill) var(--bs-border-radius-pill) 0;
+}
+
+.active-list {
+  background-color: #e5e5eb !important;
+  border-radius: 0 var(--bs-border-radius-pill) var(--bs-border-radius-pill) 0;
 }
