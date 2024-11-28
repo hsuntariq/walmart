@@ -50,3 +50,9 @@ li:hover {
   background-color: #e5e5eb !important;
   border-radius: 0 var(--bs-border-radius-pill) var(--bs-border-radius-pill) 0;
 }
+
+.line-height {
+  width: 1px;
+  background-color: lightgray;
+  height: 100%;
+}
