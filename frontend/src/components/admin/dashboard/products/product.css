@@ -1,0 +1,40 @@
+.ql-toolbar {
+  border: none;
+  /* background: #f9f9f9; */
+  padding: 8px;
+  /* border: 1px solid lightgray; */
+  border-radius: 5px 5px 0 0;
+}
+
+.quill {
+  border-radius: 5px !important;
+  color: gray !important;
+}
+
+.ql-editor {
+  min-height: 100px;
+  border: none;
+  /* border-radius: 5px; */
+  padding: 5px;
+  font-family: Arial, sans-serif;
+}
+
+.ql-container {
+  border-radius: 0 0 5px 5px !important;
+}
+
+.ql-snow .ql-toolbar button.ql-active {
+  color: purple !important; /* Make icon color purple when active */
+  border-color: purple !important; /* Optional: change border color if required */
+}
+
+/* Style for toolbar icons when hovered (before being clicked) */
+.ql-snow .ql-toolbar button:hover {
+  color: purple !important;
+  border-color: purple !important;
+}
+
+/* Optional: Style the editor background when focused */
+.ql-editor:focus {
+  border-color: purple !important;
+}

@@ -75,14 +75,17 @@ export const adminSidebarData = [
             {
               id: 16,
               text: "List",
+              link: "/",
             },
             {
               id: 17,
               text: "add",
+              link: "/admin/add-product",
             },
             {
               id: 18,
               text: "category",
+              link: "/",
             },
           ],
         },

@@ -8,6 +8,7 @@ import Login from "./pages/Authentication/Login";
 import AdminLogin from "./pages/admin/auth/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Home from "./pages/home/Home";
+import AddProduct from "./pages/admin/dashboard/products/AddProduct";
 const App = () => {
   return (
     <>
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/admin">
             <Route path="login" element={<AdminLogin />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="add-product" element={<AddProduct />} />
           </Route>
         </Routes>
         <Toaster />

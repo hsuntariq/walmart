@@ -11,6 +11,7 @@ import ActivityCard from "../cards/ActivityCard";
 import WeeklySales from "../cards/WeeklySales";
 import TotalSales from "../cards/TotalSales";
 import Projects from "../cards/Projects";
+import Dashboard from "../../../../pages/admin/dashboard/Dashboard";
 const MainContent = () => {
   return (
     <>

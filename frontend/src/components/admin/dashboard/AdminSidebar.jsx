@@ -7,6 +7,7 @@ import { RiArrowDropRightLine } from "react-icons/ri";
 import { MdBloodtype, MdOutlineChevronRight } from "react-icons/md";
 import { GoDot } from "react-icons/go";
 import { FaRegDotCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AdminSidebar = () => {
   const [open, setOpen] = useState(null);
@@ -123,6 +124,7 @@ const AdminSidebar = () => {
                                     </>
                                   )}
                                 </li>
+
                                 {item3?.list2 && (
                                   <>
                                     <ul
@@ -135,21 +137,26 @@ const AdminSidebar = () => {
                                       {item3?.list2?.map((item4, index) => {
                                         return (
                                           <>
-                                            <li
-                                              onClick={() =>
-                                                handleActive2(item4?.id)
-                                              }
-                                              key={item4.id}
-                                              className={`d-flex gap-2 ${
-                                                active2 == item4.id &&
-                                                "active-list"
-                                              }  `}
+                                            <Link
+                                              to={item4?.link}
+                                              className="text-decoration-none"
                                             >
-                                              <GoDot />
-                                              <Typography>
-                                                {item4?.text}
-                                              </Typography>
-                                            </li>
+                                              <li
+                                                onClick={() =>
+                                                  handleActive2(item4?.id)
+                                                }
+                                                key={item4.id}
+                                                className={`d-flex gap-2 ${
+                                                  active2 == item4.id &&
+                                                  "active-list"
+                                                }  `}
+                                              >
+                                                <GoDot />
+                                                <Typography>
+                                                  {item4?.text}
+                                                </Typography>
+                                              </li>
+                                            </Link>
                                           </>
                                         );
                                       })}
