@@ -4,6 +4,7 @@ const errorHandler = require("./middlewares/errorMiddleware");
 const connectDB = require("./config/connect");
 const app = express();
 const cors = require("cors");
+const productRouter = require("./routes/productRoutes");
 require("dotenv").config();
 require("colors");
 
@@ -15,7 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 connectDB();
 // make users api
 app.use("/api/users", userRouter);
+// product api
 
+app.use("/api/products", productRouter);
 // import your error handler
 
 app.use(errorHandler);

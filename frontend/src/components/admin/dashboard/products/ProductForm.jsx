@@ -1,18 +1,78 @@
 import React, { useState } from "react";
 import MainContentHeader from "../main_content/MainContentHeader";
-import { Button, Checkbox, TextField, Typography } from "@mui/material";
-import './product.css'
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
+import "./product.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import the Quill theme CSS
+import { IOSSwitch } from "./IOSSwitch";
+import ProductInfo from "./ProductInfo";
+import Pricing from "./Pricing";
+import ProductImage from "./ProductImage";
+import ProductVariant from "./ProductVariant";
+import Inventory from "./Inventory";
 const ProductForm = () => {
-     const [value, setValue] = useState("Keep your account secure with authentication step.");
+  // states to manage the inputs / controlled data/ inputs
 
-  const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"], // Text formatting options
-      [{ align: [] }], // Alignment options
-    ],
+  const [formFields, setFormFields] = useState({
+    product_name: "",
+    product_barcode: "",
+    product_sku: "",
+    product_description: "",
+    product_base_price: "",
+    product_discounted_price: "",
+    tax: true,
+    in_stock: true,
+    product_images: [],
+    product_variant: [],
+    restock: "",
+    shippingType: "",
+    delivery: "",
+    attributes: "",
+    advanced: "",
+    total_product: "",
+  });
+
+  // desctucture
+  const {
+    product_name,
+    product_barcode,
+    product_sku,
+    product_description,
+    product_base_price,
+    product_discounted_price,
+    tax,
+    in_stock,
+    product_images,
+    product_variant,
+    restock,
+    shippingType,
+    delivery,
+    attributes,
+    advanced,
+    total_product,
+  } = formFields;
+
+  // to handle text editor's input
+  const [value, setValue] = useState(
+    "Keep your account secure with authentication step."
+  );
+
+  // handle the input change
+  const handleChange = (e) => {
+    const { name, type, value, checked } = e.target;
+    setFormFields({
+      ...formFields,
+      [name]: type === "checkbox" || type === "switch" ? checked : value,
+    });
   };
+
   return (
     <>
       <div className="p-xl-5 p-3">
@@ -41,136 +101,26 @@ const ProductForm = () => {
 
         {/* form */}
 
-        <div className="row">
+        <div className="row align-items-start">
           <div className="col-xl-8 col-lg-9">
-            <div className="card p-4 shadow my-2 border-0">
-              <Typography variant="h6" className="mb-2">
-                Product Information
-              </Typography>
-              <TextField
-                variant="outlined"
-                label="Product Name"
-                className="w-100 mb-3"
-                placeholder="IPhone 14"
-                name="sku"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#8B50F8", // Change this to your desired color
-                    },
-                  },
-                  "& .MuiInputLabel-root": {
-                    "&.Mui-focused": {
-                      color: "#8B50F8", // Change label color on focus
-                    },
-                  },
-                }}
-              />
-              <div className="d-flex gap-3">
-                <TextField
-                  variant="outlined"
-                  label="Barcode"
-                  className="w-100"
-                  placeholder="031245421"
-                  name="barcode"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#8B50F8", // Change this to your desired color
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      "&.Mui-focused": {
-                        color: "#8B50F8", // Change label color on focus
-                      },
-                    },
-                  }}
-                />
-                <TextField
-                  variant="outlined"
-                  label="SKU"
-                  className="w-100"
-                  placeholder="FXSK100U"
-                  name="sku"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#8B50F8", // Change this to your desired color
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      "&.Mui-focused": {
-                        color: "#8B50F8", // Change label color on focus
-                      },
-                    },
-                  }}
-                />
-              </div>
-              <Typography className="text-secondary">
-                Description(optional)
-              </Typography>
-              <div>
-                <ReactQuill
-                    value={value}
-                    onChange={setValue}
-                    modules={modules}
-                    placeholder="Write something here..."
-                    theme="snow" // Use the Snow theme for styling
-                />
-                </div>
-
-            </div>
+            <ProductInfo
+              value={value}
+              setValue={setValue}
+              {...formFields}
+              handleChange={handleChange}
+            />
           </div>
           <div className="col-xl-4 col-lg-3">
-            <div className="p-4 card shadow border-0">
-                <Typography variant="h6">
-                    Pricing
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  label="Base Price"
-                  className="w-100 my-2"
-                  placeholder="Enter Base Price"
-                  name="sku"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#8B50F8", // Change this to your desired color
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      "&.Mui-focused": {
-                        color: "#8B50F8", // Change label color on focus
-                      },
-                    },
-                  }}
-                />
-                <TextField
-                  variant="outlined"
-                  label="Discounted Price"
-                  className="w-100 my-2"
-                  placeholder="$499"
-                  name="sku"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#8B50F8", // Change this to your desired color
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      "&.Mui-focused": {
-                        color: "#8B50F8", // Change label color on focus
-                      },
-                    },
-                  }}
-                />
-                <div className="d-flex align-items-center">
-                    <Checkbox  sx={{color:'#8B50F8'}}  />
-                    <Typography className="text-secondary">
-                        Charge tax on this product
-                    </Typography>
-                </div>
-            </div>
+            <Pricing {...formFields} handleChange={handleChange} />
+          </div>
+          <div className="col-xl-8 col-lg-9">
+            <ProductImage />
+          </div>
+          <div className="col-xl-8 col-lg-9">
+            <ProductVariant />
+          </div>
+          <div className="col-xl-8 col-lg-9">
+            <Inventory />
           </div>
         </div>
       </div>

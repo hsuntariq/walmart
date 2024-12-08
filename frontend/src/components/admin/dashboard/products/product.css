@@ -38,3 +38,9 @@
 .ql-editor:focus {
   border-color: purple !important;
 }
+
+.vertical-line {
+  /* height: 100; */
+  width: 1px;
+  background-color: lightgray;
+}

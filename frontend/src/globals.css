@@ -151,6 +151,16 @@ li:hover {
   background-color: gray !important;
 }
 
+.text-color {
+  color: #6d687a !important;
+}
+.text-purple {
+  color: #7e4ee5 !important;
+}
+.bg-purple {
+  background-color: #7e4ee5 !important;
+}
+
 @media (max-width: 575px) {
   .img-row {
     height: 100% !important;
