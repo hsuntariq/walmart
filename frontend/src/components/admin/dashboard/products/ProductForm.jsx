@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainContentHeader from "../main_content/MainContentHeader";
 import {
   Button,
@@ -17,14 +17,22 @@ import Pricing from "./Pricing";
 import ProductImage from "./ProductImage";
 import ProductVariant from "./ProductVariant";
 import Inventory from "./Inventory";
+import { toast } from "react-hot-toast";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addProductData,
+  productReset,
+} from "../../../../features/products/productSlice";
 const ProductForm = () => {
   // states to manage the inputs / controlled data/ inputs
-
+  // const [value, setValue] = useState(
+  //   "Keep your account secure with authentication step."
+  // );
   const [formFields, setFormFields] = useState({
     product_name: "",
     product_barcode: "",
     product_sku: "",
-    product_description: "",
+    product_description,
     product_base_price: "",
     product_discounted_price: "",
     tax: true,
@@ -60,9 +68,6 @@ const ProductForm = () => {
   } = formFields;
 
   // to handle text editor's input
-  const [value, setValue] = useState(
-    "Keep your account secure with authentication step."
-  );
 
   // handle the input change
   const handleChange = (e) => {
@@ -71,6 +76,61 @@ const ProductForm = () => {
       ...formFields,
       [name]: type === "checkbox" || type === "switch" ? checked : value,
     });
+  };
+
+  // get the product state
+
+  const {
+    products,
+    productLoading,
+    productSuccess,
+    productError,
+    productMessage,
+  } = useSelector((state) => state.item);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (productError) {
+      toast.error(postMessage);
+    }
+
+    if (productSuccess) {
+      toast.success("Product Added Successfully!");
+    }
+
+    dispatch(productReset());
+  }, [productError, productSuccess]);
+
+  const handleProductUpload = () => {
+    if (
+      !product_name ||
+      !product_barcode ||
+      !product_sku ||
+      !product_description ||
+      !product_base_price ||
+      !product_discounted_price ||
+      !tax ||
+      !in_stock ||
+      !product_images ||
+      !product_variant
+    ) {
+      toast.error("Please enter all the relevant fields");
+    } else {
+      const productData = {
+        product_name,
+        product_barcode,
+        product_sku,
+        product_description: value,
+        product_base_price,
+        product_discounted_price,
+        tax,
+        in_stock,
+        product_images,
+        product_variant,
+      };
+      dispatch(addProductData(productData));
+    }
   };
 
   return (
@@ -93,7 +153,11 @@ const ProductForm = () => {
             >
               Save Draft
             </Button>
-            <Button variant="contained" style={{ background: "#8C57FF" }}>
+            <Button
+              onClick={handleProductUpload}
+              variant="contained"
+              style={{ background: "#8C57FF" }}
+            >
               Publish Product
             </Button>
           </div>
@@ -104,20 +168,26 @@ const ProductForm = () => {
         <div className="row align-items-start">
           <div className="col-xl-8 col-lg-9">
             <ProductInfo
-              value={value}
-              setValue={setValue}
               {...formFields}
               handleChange={handleChange}
+              formFields={formFields}
+              setFormFields={setFormFields}
             />
           </div>
           <div className="col-xl-4 col-lg-3">
             <Pricing {...formFields} handleChange={handleChange} />
           </div>
           <div className="col-xl-8 col-lg-9">
-            <ProductImage />
+            <ProductImage
+              formFields={formFields}
+              setFormFields={setFormFields}
+            />
           </div>
           <div className="col-xl-8 col-lg-9">
-            <ProductVariant />
+            <ProductVariant
+              formFields={formFields}
+              setFormFields={setFormFields}
+            />
           </div>
           <div className="col-xl-8 col-lg-9">
             <Inventory />

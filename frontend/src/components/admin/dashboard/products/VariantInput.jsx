@@ -1,77 +1,71 @@
 import React from "react";
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { TextField, MenuItem, IconButton } from "@mui/material";
 import { IoClose } from "react-icons/io5";
-const VariantInput = ({ id, count, setCount }) => {
-  const removeVariantInput = (id) => {
-    let newCount = count?.filter((item, index) => {
-      return item?.id !== id;
-    });
 
+const VariantInput = ({ id, count, setCount, handleChange }) => {
+  const removeVariantInput = (id) => {
+    const newCount = count.filter((item) => item.id !== id);
     setCount(newCount);
   };
 
   return (
-    <>
-      <div className="d-flex mb-1 align-items-center gap-2">
-        <TextField
-          variant="outlined"
-          label="Select Variant"
-          select
-          className="w-25 my-2"
-          placeholder=""
-          name="sku"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              "&.Mui-focused fieldset": {
-                borderColor: "#8B50F8", // Change this to your desired color
-              },
+    <div className="d-flex mb-1 align-items-center gap-2">
+      {/* Variant Type */}
+      <TextField
+        variant="outlined"
+        label="Select Variant"
+        select
+        className="w-25 my-2"
+        name="type"
+        onChange={(e) => handleChange(id, e)}
+        value={count.find((item) => item.id === id)?.type || ""}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "#8B50F8",
             },
-            "& .MuiInputLabel-root": {
-              "&.Mui-focused": {
-                color: "#8B50F8", // Change label color on focus
-              },
+          },
+          "& .MuiInputLabel-root": {
+            "&.Mui-focused": {
+              color: "#8B50F8",
             },
-          }}
-        >
-          <MenuItem value="wize">Size</MenuItem>
-          <MenuItem value="weight">Weight</MenuItem>
-          <MenuItem value="color">Color</MenuItem>
-          <MenuItem value="smell">Smell</MenuItem>
-        </TextField>
+          },
+        }}
+      >
+        <MenuItem value="size">Size</MenuItem>
+        <MenuItem value="weight">Weight</MenuItem>
+        <MenuItem value="color">Color</MenuItem>
+        <MenuItem value="smell">Smell</MenuItem>
+      </TextField>
 
-        {/* variant value */}
+      {/* Variant Value */}
+      <TextField
+        variant="outlined"
+        label="Variant Value"
+        className="w-100 my-2"
+        name="variant"
+        placeholder="Enter Variant Value"
+        onChange={(e) => handleChange(id, e)}
+        value={count.find((item) => item.id === id)?.variant || ""}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "#8B50F8",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            "&.Mui-focused": {
+              color: "#8B50F8",
+            },
+          },
+        }}
+      />
 
-        <TextField
-          variant="outlined"
-          label="Variant Value"
-          className="w-100 my-2"
-          placeholder="Enter Variant Value"
-          name="sku"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              "&.Mui-focused fieldset": {
-                borderColor: "#8B50F8", // Change this to your desired color
-              },
-            },
-            "& .MuiInputLabel-root": {
-              "&.Mui-focused": {
-                color: "#8B50F8", // Change label color on focus
-              },
-            },
-          }}
-        />
-        <IconButton className="" onClick={() => removeVariantInput(id)}>
-          <IoClose />
-        </IconButton>
-      </div>
-    </>
+      {/* Remove Button */}
+      <IconButton onClick={() => removeVariantInput(id)}>
+        <IoClose />
+      </IconButton>
+    </div>
   );
 };
 

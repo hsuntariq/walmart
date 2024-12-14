@@ -29,7 +29,7 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    productReducer: (state) => {
+    productReset: (state) => {
       state.productError = false;
       state.productLoading = false;
       state.productMessage = "";
@@ -54,5 +54,5 @@ export const productSlice = createSlice({
   },
 });
 
-export const { productReducer } = productSlice.actions;
+export const { productReset } = productSlice.actions;
 export default productSlice.reducer;
