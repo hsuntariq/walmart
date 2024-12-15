@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useDropzone } from "react-dropzone";
 import { IoCloseOutline } from "react-icons/io5";
-
-const ProductImage = () => {
+import axios from "axios";
+const ProductImage = ({
+  product_images,
+  handleChange,
+  formFields,
+  setFormFields,
+}) => {
   const [images, setImages] = useState([]);
+  const [imagesURL, setImagesURL] = useState([]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => {
-      console.log(acceptedFiles); // Handle uploaded files here
       //   setImages((prevImages) => [...prevImages, ...acceptedFiles]);
       setImages((prevValue) => [...prevValue, ...acceptedFiles]);
     },
@@ -19,6 +24,26 @@ const ProductImage = () => {
       return item?.lastModified !== id;
     });
     setImages(newImages);
+  };
+
+  useEffect(() => {
+    setFormFields({ ...formFields, product_images: imagesURL });
+  }, [imagesURL]);
+
+  const uploadImage = async () => {
+    const myImages = images.map(async (item, index) => {
+      const data = new FormData();
+      data.append("file", item);
+      data.append("upload_preset", "ls8frk5v");
+
+      return await axios
+        .post("https://api.cloudinary.com/v1_1/dwtsjgcyf/image/upload", data)
+        .then((response) => response?.data?.url);
+    });
+
+    const urls = await Promise.all(myImages);
+
+    setImagesURL(urls);
   };
 
   return (
@@ -51,7 +76,7 @@ const ProductImage = () => {
         }}
         {...getRootProps()}
       >
-        <input {...getInputProps()} />
+        <input name="product_images" {...getInputProps()} />
         <Box sx={{ mb: 2 }}>
           <Box
             sx={{
@@ -137,6 +162,7 @@ const ProductImage = () => {
             Remove All
           </Button>
           <Button
+            onClick={uploadImage}
             size="small"
             variant="contained"
             sx={{ background: "#8C57FF", fontWeight: "400" }}

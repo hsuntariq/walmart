@@ -62,6 +62,7 @@ const Pricing = ({
         />
         <div className="d-flex align-items-center">
           <Checkbox
+            defaultChecked
             name="tax"
             value={tax}
             onChange={handleChange}

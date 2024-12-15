@@ -114,10 +114,19 @@ const ProductForm = () => {
             <Pricing {...formFields} handleChange={handleChange} />
           </div>
           <div className="col-xl-8 col-lg-9">
-            <ProductImage />
+            <ProductImage
+              product_images={product_images}
+              formFields={formFields}
+              setFormFields={setFormFields}
+              onChange={handleChange}
+            />
           </div>
           <div className="col-xl-8 col-lg-9">
-            <ProductVariant />
+            <ProductVariant
+              formFields={formFields}
+              handleChange={handleChange}
+              setFormFields={setFormFields}
+            />
           </div>
           <div className="col-xl-8 col-lg-9">
             <Inventory />

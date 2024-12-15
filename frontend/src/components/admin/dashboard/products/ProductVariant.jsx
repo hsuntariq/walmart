@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import VariantInput from "./VariantInput";
 import { GoPlus } from "react-icons/go";
 import { Button, Typography } from "@mui/material";
 
-const ProductVariant = () => {
-  const [count, setCount] = useState([{ id: Date.now() }]);
+const ProductVariant = ({ formFields, setFormFields }) => {
+  const [count, setCount] = useState([
+    { id: Date.now(), type: "", variant: "" },
+  ]);
+
+  const handleChange = (id, e) => {
+    setCount((prevCount) =>
+      prevCount.map((item) =>
+        item.id === id ? { ...item, [e.target.name]: e.target.value } : item
+      )
+    );
+  };
+
+  useEffect(() => {
+    setFormFields({
+      ...formFields,
+      product_variant: [count],
+    });
+  });
 
   return (
     <>
@@ -13,18 +30,21 @@ const ProductVariant = () => {
         <Typography variant="h6" className="mb-2">
           Product Variants
         </Typography>
-        {count?.map((item, index) => {
-          return (
-            <VariantInput
-              count={count}
-              setCount={setCount}
-              key={item.id}
-              id={item.id}
-            />
-          );
-        })}
+        {count?.map((item, index) => (
+          <VariantInput
+            id={item.id}
+            type={item.type}
+            variant={item.variant}
+            count={count}
+            setCount={setCount}
+            handleChange={handleChange}
+            key={item.id}
+          />
+        ))}
         <Button
-          onClick={() => setCount([...count, { id: Date.now() }])}
+          onClick={() =>
+            setCount([...count, { id: Date.now(), type: "", variant: "" }])
+          }
           sx={{
             width: "max-content",
             background: "#8B50F8",
