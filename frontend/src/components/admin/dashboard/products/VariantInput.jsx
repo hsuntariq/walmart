@@ -8,12 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import { IoClose } from "react-icons/io5";
-const VariantInput = ({ id, count, setCount, type, variant, handleChange }) => {
-  const removeVariantInput = (id) => {
-    let newCount = count?.filter((item, index) => {
-      return item?.id !== id;
-    });
 
+const VariantInput = ({ id, count, setCount, handleChange }) => {
+  const removeVariantInput = (id) => {
+    const newCount = count.filter((item) => item.id !== id);
     setCount(newCount);
   };
 
@@ -25,9 +23,8 @@ const VariantInput = ({ id, count, setCount, type, variant, handleChange }) => {
           label="Select Variant"
           select
           className="w-25 my-2"
-          placeholder=""
           name="type"
-          value={type}
+          value={count?.type}
           onChange={(e) => handleChange(id, e)}
           sx={{
             "& .MuiOutlinedInput-root": {
@@ -48,15 +45,13 @@ const VariantInput = ({ id, count, setCount, type, variant, handleChange }) => {
           <MenuItem value="smell">Smell</MenuItem>
         </TextField>
 
-        {/* variant value */}
-
         <TextField
           variant="outlined"
           label="Variant Value"
           className="w-100 my-2"
           placeholder="Enter Variant Value"
           name="variant"
-          value={variant}
+          value={count?.variant}
           onChange={(e) => handleChange(id, e)}
           sx={{
             "& .MuiOutlinedInput-root": {
@@ -71,7 +66,7 @@ const VariantInput = ({ id, count, setCount, type, variant, handleChange }) => {
             },
           }}
         />
-        <IconButton className="" onClick={() => removeVariantInput(id)}>
+        <IconButton onClick={() => removeVariantInput(id)}>
           <IoClose />
         </IconButton>
       </div>

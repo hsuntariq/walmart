@@ -69,6 +69,12 @@ const addProduct = asyncHandler(async (req, res) => {
   res.send(createdProduct);
 });
 
+const getProducts = asyncHandler(async (req, res) => {
+  const myProducts = await productModel.find();
+  res.send(myProducts);
+});
+
 module.exports = {
   addProduct,
+  getProducts,
 };

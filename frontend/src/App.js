@@ -9,6 +9,8 @@ import AdminLogin from "./pages/admin/auth/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Home from "./pages/home/Home";
 import AddProduct from "./pages/admin/dashboard/products/AddProduct";
+import "react-loading-skeleton/dist/skeleton.css";
+
 const App = () => {
   return (
     <>

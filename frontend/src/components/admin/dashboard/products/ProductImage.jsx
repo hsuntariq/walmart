@@ -3,16 +3,14 @@ import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useDropzone } from "react-dropzone";
 import { IoCloseOutline } from "react-icons/io5";
 import axios from "axios";
-const ProductImage = ({
-  product_images,
-  handleChange,
-  formFields,
-  setFormFields,
-}) => {
+import { ThreeCircles } from "react-loader-spinner";
+
+const ProductImage = ({ formFields, setFormFields }) => {
   const [images, setImages] = useState([]);
-  const [imagesURL, setImagesURL] = useState([]);
+  const [imageLoading, setImageLoading] = useState(false);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => {
+      // console.log(acceptedFiles); // Handle uploaded files here
       //   setImages((prevImages) => [...prevImages, ...acceptedFiles]);
       setImages((prevValue) => [...prevValue, ...acceptedFiles]);
     },
@@ -26,24 +24,32 @@ const ProductImage = ({
     setImages(newImages);
   };
 
-  useEffect(() => {
-    setFormFields({ ...formFields, product_images: imagesURL });
-  }, [imagesURL]);
+  const handleImageUpload = async () => {
+    try {
+      setImageLoading(true);
+      const imagesURL = images?.map(async (item, index) => {
+        const data = new FormData();
+        data.append("file", item);
+        data.append("upload_preset", "ls8frk5v");
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dwtsjgcyf/image/upload",
+          data
+        );
+        setImageLoading(false);
+        setImages([]);
+        return response.data.url;
+      });
 
-  const uploadImage = async () => {
-    const myImages = images.map(async (item, index) => {
-      const data = new FormData();
-      data.append("file", item);
-      data.append("upload_preset", "ls8frk5v");
+      // wait for all the promises to be resolved
+      const myImages = await Promise.all(imagesURL);
 
-      return await axios
-        .post("https://api.cloudinary.com/v1_1/dwtsjgcyf/image/upload", data)
-        .then((response) => response?.data?.url);
-    });
-
-    const urls = await Promise.all(myImages);
-
-    setImagesURL(urls);
+      setFormFields({
+        ...formFields,
+        product_images: [...formFields.product_images, ...myImages],
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -76,7 +82,7 @@ const ProductImage = ({
         }}
         {...getRootProps()}
       >
-        <input name="product_images" {...getInputProps()} />
+        <input {...getInputProps()} />
         <Box sx={{ mb: 2 }}>
           <Box
             sx={{
@@ -162,12 +168,20 @@ const ProductImage = ({
             Remove All
           </Button>
           <Button
-            onClick={uploadImage}
+            disabled={imageLoading}
+            onClick={handleImageUpload}
             size="small"
             variant="contained"
+            className={`${imageLoading && "btn-secondary"}`}
             sx={{ background: "#8C57FF", fontWeight: "400" }}
           >
-            Upload Files
+            {imageLoading ? (
+              <>
+                <ThreeCircles height={25} width={25} color="white" />
+              </>
+            ) : (
+              "Upload Files"
+            )}
           </Button>
         </div>
       )}

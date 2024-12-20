@@ -8,8 +8,8 @@ const ProductInfo = ({
   product_sku,
   product_description,
   handleChange,
-  value,
-  setValue,
+  setFormFields,
+  formFields,
 }) => {
   // const [value, setValue] = useState(
   //   "Keep your account secure with authentication step."
@@ -21,6 +21,14 @@ const ProductInfo = ({
       [{ align: [] }], // Alignment options
     ],
   };
+
+  const handleChange2 = (value) => {
+    setFormFields({
+      ...formFields,
+      product_description: value,
+    });
+  };
+
   return (
     <>
       <div className="card p-4 shadow my-2 border-0">
@@ -97,8 +105,8 @@ const ProductInfo = ({
         </Typography>
         <div>
           <ReactQuill
-            value={value}
-            onChange={setValue}
+            value={product_description}
+            onChange={handleChange2}
             modules={modules}
             placeholder="Write something here..."
             theme="snow" // Use the Snow theme for styling

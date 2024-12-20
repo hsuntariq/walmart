@@ -16,3 +16,8 @@ export const addProduct = async (productData, token) => {
 
   return response.data;
 };
+
+export const getProducts = async () => {
+  const response = await axios.get(`${base_url}/get-products`);
+  return response.data;
+};
