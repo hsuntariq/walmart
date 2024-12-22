@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const productModel = require("../models/productModel");
-
+const cartModel = require("../models/cart");
 const addProduct = asyncHandler(async (req, res) => {
   const {
     product_name,
@@ -74,7 +74,40 @@ const getProducts = asyncHandler(async (req, res) => {
   res.send(myProducts);
 });
 
+const addToCart = asyncHandler(async (req, res) => {
+  const { product_name, product_price, product_image } = req.body;
+  const user_id = req.user._id;
+
+  const checkExisting = await cartModel.findOne({
+    "cart.product_name": product_name,
+    user: user_id,
+  });
+
+  if (!checkExisting) {
+    const cartData = await cartModel.create({
+      cart: [{ product_name, product_price, product_image, quantity: 1 }],
+      user: user_id,
+    });
+    res.send(cartData);
+  } else {
+    const updateQuantity = await cartModel.findOneAndUpdate(
+      {
+        "cart.product_name": product_name,
+        user: user_id,
+      },
+      {
+        $inc: { "cart.$.quantity": 1 },
+      },
+      {
+        new: true,
+      }
+    );
+    res.send(updateQuantity);
+  }
+});
+
 module.exports = {
   addProduct,
   getProducts,
+  addToCart,
 };

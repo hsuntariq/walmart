@@ -10,6 +10,7 @@ import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Home from "./pages/home/Home";
 import AddProduct from "./pages/admin/dashboard/products/AddProduct";
 import "react-loading-skeleton/dist/skeleton.css";
+import SingleProduct from "./components/home/SingleProduct";
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-
+          <Route path="/single-product/:id" element={<SingleProduct />} />
           <Route path="/admin">
             <Route path="login" element={<AdminLogin />} />
             <Route path="dashboard" element={<Dashboard />} />

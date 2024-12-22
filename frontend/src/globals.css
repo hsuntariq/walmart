@@ -161,6 +161,14 @@ li:hover {
   background-color: #7e4ee5 !important;
 }
 
+.clip-circle {
+  clip-path: circle() !important;
+}
+
+/* .slick-slide {
+  margin: 0 1rem !important;
+} */
+
 @media (max-width: 575px) {
   .img-row {
     height: 100% !important;

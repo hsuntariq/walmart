@@ -1,5 +1,6 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 
 const MyProducts = ({
   product_images,
@@ -7,11 +8,12 @@ const MyProducts = ({
   product_base_price,
   product_description,
   product_name,
+  _id,
 }) => {
   return (
     <>
-      <div className="col-lg-3 col-md-4">
-        <div className="card p-3 shadow border-0">
+      <Link to={`/single-product/${_id}`} className="text-decoration-none">
+        <div className="card w-100 p-3 shadow border-0">
           <img
             src={product_images[0]}
             alt="product_image"
@@ -35,7 +37,7 @@ const MyProducts = ({
             dangerouslySetInnerHTML={{ __html: product_description }}
           />
         </div>
-      </div>
+      </Link>
     </>
   );
 };
